@@ -21,35 +21,27 @@ app.get('/times', (req, res) => {
     .ref('times')
     .once('value')
     .then((response) => {
-      console.log({ response })
       res.send(response.val());
-    }
-    );
+    });
 });
 
-app.post('/token', (req, res) => {
-  res.send('Hello World!');
-});
-
-app.post('/message', (req, res) => {
+app.post('/times', (req, res) => {
   const {
-    body: { message, title, tokens },
+    body: { name, time, project },
   } = req;
-  const outputMessage = { notification: { title, body: message } };
-  for (let i = 0; i < tokens.length; i++) {
-    admin
-      .messaging()
-      .sendToDevice(tokens[i], outputMessage)
-      .then((response) => {
-        res.status(200).send('Notification sent successfully');
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
 
-  res.send({ msg: 'Notifications Sent' }).json();
-});
+  admin
+    .database()
+    .ref('times')
+    .push({
+      name,
+      time,
+      project
+    })
+    .then(() => {
+      res.send('Time Created');
+    });
+})
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
