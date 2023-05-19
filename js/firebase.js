@@ -13,14 +13,6 @@ const app = firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 const timesRef = db.ref('/times');
 
-const getTimes = () => {
-  return timesRef.once('value').then((snapshot) => {
-    return Object.values(snapshot.val()).sort((a, b) => {
-      return new Date(b.time) - new Date(a.time);
-    });
-  });
-};
-
 const createTime = (time) => {
   const { name, project, time: timeCount } = time;
 
@@ -31,7 +23,3 @@ const createTime = (time) => {
   });
 };
 
-getTimes().then((times) => {
-  const timesNames = times.map((time) => time.name);
-  document.getElementById('test-text').innerHTML = timesNames
-});
