@@ -35,3 +35,33 @@ getTimes().then((times) => {
   const timesNames = times.map((time) => time.name);
   document.getElementById('test-text').innerHTML = timesNames
 });
+
+const messaging = firebase.messaging();
+
+messaging
+  .requestPermission()
+  .then(function () {
+    console.log('Notification permission granted.');
+
+    // get the token in the form of promise
+    return messaging.getToken();
+  })
+  .then(function (token) {
+    console.log(token);
+  })
+  .catch(function (err) {
+    console.log('Unable to get permission to notify.', err);
+  });
+
+let enableForegroundNotification = true;
+messaging.onMessage(function (payload) {
+    console.log('Message received. ', payload);
+
+    let notification = payload.notification;
+    const notificationTitle = notification.title;
+    const notificationOptions = {
+      body: notification.body,
+    };
+
+    return new Notification(notificationTitle, notificationOptions);
+});
