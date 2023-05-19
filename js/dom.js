@@ -60,6 +60,8 @@ const createTasksContainers = (tasks) => {
     child.appendChild(rightSection);
     tasksContainer.appendChild(child);
   })
+  const tasksNumber = document.getElementById('tasks-number');
+  tasksNumber.innerHTML = tasks.length;
 }
 
 const changeDateElements = () => {
@@ -70,5 +72,5 @@ const changeDateElements = () => {
   dateDay.innerHTML = numberToDayOfWeek[today.getDay()];
 }
 
-createTasksContainers(tasks);
+getTimes();
 changeDateElements();

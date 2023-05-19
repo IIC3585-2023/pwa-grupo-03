@@ -4,7 +4,7 @@ const filesToCache = [
   "./index.html",
   "./app.js",
   "./js/firebase.js",
-  "./js/index.js",
+  "./js/dom.js",
   "./images/icon.svg"
 ]
 
@@ -30,24 +30,16 @@ async function networkFirst(request) {
   try {
     const response = await fetch(request);
     cache.put(request, response.clone());
-    console.log('Network: ', request.url);
+    // console.log('Network: ', request.url);
     return response;
   } catch {
-    console.log('Cache: ', request.url);
+    // console.log('Cache: ', request.url);
     return cache.match(request);
   }
 }
 
 self.addEventListener("fetch", function (event) {
-  console.log('Fetch intercepted for:', event.request.url);
+  // console.log('Fetch intercepted for:', event.request.url);
   if (event.request.method !== "GET") return;
   event.respondWith(networkFirst(event.request));
-  // event.respondWith(
-  //   caches.match(event.request).then((cachedResponse) => {
-  //     if (cachedResponse) {
-  //       return cachedResponse;
-  //     }
-  //     return fetch(event.request);
-  //   }),
-  // );
 });

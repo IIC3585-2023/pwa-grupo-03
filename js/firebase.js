@@ -13,20 +13,24 @@ const app = firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 const timesRef = db.ref('/times');
 
-const createTime = (time) => {
-  const { name, project, time: timeCount } = time;
+const getTimes = () => {
+  fetch('http://localhost:9000/times')
+  .then((response) => response.json())
+  .then((data) => {
+    createTasksContainers(data);
+  });
+}
+
+const createTime = (timeObj) => {
+  const { name, project, time, completed } = timeObj;
 
   timesRef.push({
     name,
     project,
-    time: timeCount,
+    time,
+    completed
   });
 };
-
-getTimes().then((times) => {
-  const timesNames = times.map((time) => time.name);
-  document.getElementById('test-text').innerHTML = timesNames
-});
 
 const messaging = firebase.messaging();
 
@@ -49,7 +53,7 @@ let enableForegroundNotification = true;
 messaging.onMessage(function (payload) {
     console.log('Message received. ', payload);
 
-    let notification = payload.notification;
+    const notification = JSON.parse(payload.data.notification);
     const notificationTitle = notification.title;
     const notificationOptions = {
       body: notification.body,
