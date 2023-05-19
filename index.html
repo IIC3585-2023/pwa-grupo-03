@@ -6,11 +6,37 @@
     <link href="./dist/output.css" rel="stylesheet">
     <link rel="manifest" href="manifest.json" />
   </head>
-  <body>
-    <main class="flex flex-col gap-10 bg-black px-5 sm:px-10 md:px-32">
-      <div class="flex w-full justify-between" id="tasks-container">
-        <p id="test-text" style="color:white">aaaaa</p>
+  <body class="bg-black text-white font-sans">
+    <nav class="flex w-full py-5 px-5 sm:px-10 md:px-32 border-b border-gray-500">
+      <span class="flex gap-3 items-center">
+        <img src="https://www.hellotimo.co/logo.svg" alt="Logo" />
+        <h1 class="font-bold text-3xl">Timo</h1>
+      </span>
+    </nav>
+    <main class="flex flex-col gap-10 px-5 sm:px-10 md:px-32">
+      <div class="flex items-center justify-between mt-10">
+        <div class="flex gap-2 items-center">
+          <div class="w-10 h-10 p-3 font-bold flex items-center justify-center text-xl bg-purple-700 rounded-full" id="date-number">
+            10
+          </div>
+          <p class="text-xl font-bold" id="date-day">
+            Wed
+          </p>
+        </div>
+        <p class="text-lg text-gray-300">
+          <span id="tasks-number">8</span> todos
+        </p>
       </div>
+      <div class="flex flex-col w-full gap-10" id="tasks-container">
+      </div>
+      <button class="flex items-center justify-start gap-2 text-gray-300" id="new-task">
+        <span class="h-5 w-5">
+          <svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path clip-rule="evenodd" fill-rule="evenodd" d="M12 5.25a.75.75 0 01.75.75v5.25H18a.75.75 0 010 1.5h-5.25V18a.75.75 0 01-1.5 0v-5.25H6a.75.75 0 010-1.5h5.25V6a.75.75 0 01.75-.75z"></path>
+          </svg>
+        </span>
+        <p class="text-lg font-medium">New task</p>
+      </button>
     </main>
   </body>
   <script src="app.js"></script>
@@ -21,4 +47,5 @@
     <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-messaging.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js"></script>
     <script src="./js/firebase.js"></script>
+    <script src="./js/dom.js"></script>
 </html>

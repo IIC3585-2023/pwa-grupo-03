@@ -20,8 +20,12 @@ app.get('/times', (req, res) => {
     .database()
     .ref('times')
     .once('value')
-    .then((response) => {
-      res.send(response.val());
+    .then((snapshot) => {
+      return Object.values(snapshot.val()).sort((a, b) => {
+        return new Date(b.time) - new Date(a.time);
+      });
+    }).then((times) => {
+      res.send(times)
     });
 });
 
@@ -42,6 +46,24 @@ app.post('/times', (req, res) => {
       res.send('Time Created');
     });
 })
+
+app.post('/message', (req, res) => {
+  const {
+    body: { message, title, token },
+  } = req;
+  const outputMessage = { notification: { title, body: message } };
+  admin
+    .messaging()
+    .sendToDevice(token, outputMessage)
+    .then((response) => {
+      res.status(200).send('Notification sent successfully');
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+  res.send({ msg: 'Notifications Sent' }).json();
+});
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

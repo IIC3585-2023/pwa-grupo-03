@@ -1,3 +1,39 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.task {
+    @apply flex items-center justify-between px-4 py-5 rounded-xl hover:bg-gray-900;
+}
+
+.task-name {
+    @apply text-sm md:text-xl;
+}
+
+.task-project {
+    @apply text-xs md:text-sm text-gray-300;
+}
+
+.text-section {
+    @apply flex flex-col gap-1;
+}
+
+.task-checkbox {
+    @apply rounded-full w-6 h-6 mr-5 mt-1 border border-gray-200 ;
+}
+
+.time-section {
+    @apply inline-flex items-center relative;
+}
+
+.time-button {
+    @apply rounded-full h-10 w-10 border border-gray-200 absolute top-0 mt-[0.09rem] flex items-center justify-center text-gray-200 hover:bg-purple-700;
+}
+
+.time-button-icon {
+    @apply h-4 w-4;
+}
+
+.time-text {
+    @apply rounded-full pl-12 pr-5 py-1.5 border border-gray-200 md:text-lg;
+}
