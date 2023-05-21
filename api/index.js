@@ -65,6 +65,19 @@ app.post('/message', (req, res) => {
   res.send({ msg: 'Notifications Sent' }).json();
 });
 
+app.post('/notification', (req, res) => {
+  const {
+    body: { message, title, token },
+  } = req;
+  const outputMessage = { notification: { title, body: message } };
+  admin
+    .messaging()
+    .sendToDevice(token, outputMessage)
+    .then((response) => {
+      res.status(200).send('Notification sent successfully');
+    })
+})
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });

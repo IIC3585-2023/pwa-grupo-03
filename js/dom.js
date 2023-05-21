@@ -29,7 +29,9 @@ const createTasksContainers = (tasks) => {
     const textSection = document.createElement('div');
     const timeSection = document.createElement('div');
     const timeButton = document.createElement('button');
+    timeButton.id = `time-button-${tasks.indexOf(task) + 1}`;
     const timeText = document.createElement('p');
+    timeText.id = `time-text-${tasks.indexOf(task) + 1}`;
 
     child.classList.add('task');
     rightSection.classList.add('flex', 'items-center')
@@ -59,6 +61,17 @@ const createTasksContainers = (tasks) => {
     child.appendChild(leftSection);
     child.appendChild(rightSection);
     tasksContainer.appendChild(child);
+
+    timeButton.addEventListener('click', () => {
+      if (timeButton.innerHTML === playIcon) {
+        timeButton.innerHTML = stopIcon;
+        const interval = startTimer(timeText);
+        timeButton.interval = interval;
+      } else {
+        timeButton.innerHTML = playIcon;
+        stopTimer(timeButton.interval);
+      }
+    });
   })
   const tasksNumber = document.getElementById('tasks-number');
   tasksNumber.innerHTML = tasks.length;
