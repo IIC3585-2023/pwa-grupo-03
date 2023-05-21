@@ -123,8 +123,6 @@ const createNewTask = () => {
 }
 
 const onblurNewTask = () => {
-  console.log('onblurNewTask');
-  return
   const tasksContainer = document.getElementById('tasks-container');
   const lastTask = tasksContainer.lastChild;
   const name = lastTask.querySelector('.task-input').value;
