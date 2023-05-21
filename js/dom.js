@@ -21,7 +21,9 @@ const taskElement = (isInput, task) => {
   const textSection = document.createElement('div');
   const timeSection = document.createElement('div');
   const timeButton = document.createElement('button');
+  timeButton.id = `time-button-${tasks.indexOf(task) + 1}`;
   const timeText = document.createElement(isInput ? 'input' : 'p');
+  timeText.id = `time-text-${tasks.indexOf(task) + 1}`;
 
   const elementsInside = []
   elementsInside.push(rightSection);
@@ -88,6 +90,17 @@ const createTasksContainers = (tasks) => {
   tasks.forEach((task) => {
     const child = taskElement(false, task);
     tasksContainer.appendChild(child);
+
+    timeButton.addEventListener('click', () => {
+      if (timeButton.innerHTML === playIcon) {
+        timeButton.innerHTML = stopIcon;
+        const interval = startTimer(timeText);
+        timeButton.interval = interval;
+      } else {
+        timeButton.innerHTML = playIcon;
+        stopTimer(timeButton.interval);
+      }
+    });
   })
   const tasksNumber = document.getElementById('tasks-number');
   tasksNumber.innerHTML = tasks.length;

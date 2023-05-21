@@ -5,6 +5,7 @@ const filesToCache = [
   "./app.js",
   "./js/firebase.js",
   "./js/dom.js",
+  './js/utils.js',
   "./images/icon.svg"
 ]
 
