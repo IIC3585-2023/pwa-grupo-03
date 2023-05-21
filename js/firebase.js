@@ -63,7 +63,7 @@ messaging.onMessage(function (payload) {
     return new Notification(notificationTitle, notificationOptions);
 });
 
-const createNotification = (message, title, token) => {
+const createNotification = (title, message) => {
   fetch('http://localhost:9000/notification', {
     method: 'POST',
     headers: {
@@ -72,7 +72,7 @@ const createNotification = (message, title, token) => {
     body: JSON.stringify({
       message,
       title,
-      token,
+      token: localStorage.getItem('token'),
     }),
   });
 }
