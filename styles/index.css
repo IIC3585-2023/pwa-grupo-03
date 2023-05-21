@@ -10,8 +10,26 @@
     @apply text-sm md:text-xl;
 }
 
+.task-input {
+    @apply appearance-none outline-none block;
+    @apply w-full px-2 py-1 leading-tight;
+    @apply border-b border-gray-500;
+    @apply bg-transparent text-white text-sm md:text-xl focus:ring-0 focus:border-purple-500;
+    @apply focus:border-b focus:border-gray-500;
+    @apply placeholder:text-gray-600 placeholder:font-light;
+}
+
 .task-project {
     @apply text-xs md:text-sm text-gray-300;
+}
+
+.task-input-project {
+    @apply appearance-none outline-none block text-gray-300;
+    @apply w-32 px-2 py-1 leading-tight;
+    @apply border-b border-gray-500;
+    @apply bg-transparent text-white text-xs md:text-sm focus:ring-0 focus:border-purple-500;
+    @apply focus:border-b focus:border-gray-500;
+    @apply placeholder:text-gray-600 placeholder:font-light;
 }
 
 .text-section {
@@ -34,6 +52,17 @@
     @apply h-4 w-4;
 }
 
-.time-text {
-    @apply rounded-full pl-12 pr-5 py-1.5 border border-gray-200 md:text-lg;
+.time-text, .time-text-input {
+    @apply rounded-full pl-12 pr-5 py-1.5 border border-gray-200 text-lg;
+}
+
+.time-text-input {
+    @apply appearance-none outline-none block text-gray-300 py-1.5 w-36;
+    @apply justify-center;
+    @apply bg-transparent text-white focus:ring-0 focus:border-purple-500;
+    @apply focus:border-gray-200;
+}
+
+.completed {
+
 }
