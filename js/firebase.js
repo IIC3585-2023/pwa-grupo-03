@@ -12,12 +12,13 @@ const app = firebase.initializeApp(firebaseConfig);
 
 const db = firebase.database();
 const timesRef = db.ref('/times');
+const apiUrl = 'https://8a42-201-219-233-75.ngrok-free.app';
 
-const getTimes = () => {
-  fetch('http://localhost:9000/times')
+const getTimes = async () => {
+  return fetch(`${apiUrl}/times`)
   .then((response) => response.json())
   .then((data) => {
-    createTasksContainers(data);
+    return data;
   });
 }
 
@@ -33,7 +34,7 @@ const createTime = (timeObj) => {
 };
 
 const updateTime = (timeId, completed) => {
-  fetch(`http://localhost:9000/times/${timeId}`, {
+  fetch(`${apiUrl}/times/${timeId}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -61,30 +62,3 @@ messaging
   .catch(function (err) {
     console.log('Unable to get permission to notify.', err);
   });
-
-let enableForegroundNotification = true;
-messaging.onMessage(function (payload) {
-    console.log('Message received. ', payload);
-    console.log(payload.notification);
-    const notification = payload.notification;
-    const notificationTitle = notification.title;
-    const notificationOptions = {
-      body: notification.body,
-      icon: './images/icon.svg',
-    };
-    return new Notification(notificationTitle, notificationOptions);
-});
-
-const createNotification = (title, message) => {
-  fetch('http://localhost:9000/notification', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      message,
-      title,
-      token: localStorage.getItem('token'),
-    }),
-  });
-}

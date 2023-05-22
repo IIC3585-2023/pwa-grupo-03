@@ -66,6 +66,7 @@ const addStyles = (isInput, child, {textSection, leftSection, taskName, project,
   timeText.classList.add(isInput ? 'time-text-input' : 'time-text');
   timeButton.innerHTML = playIcon;
 }
+
 const taskElement = (isInput, task, index) => {
   const child = document.createElement(isInput ? 'button' : 'div');
   const elements = createElements(isInput);
@@ -77,7 +78,6 @@ const taskElement = (isInput, task, index) => {
     timeText,
   } = elements;
   const elementsInside = Object.values(elements);
-  console.log(index);
 
   addStyles(isInput, child, elements);
 
@@ -102,6 +102,7 @@ const taskElement = (isInput, task, index) => {
     timeButton.disabled = true;
   }
   else {
+    if (task?.completed) addCompletedStyle(child);
     taskName.innerHTML = task.name;
     project.innerHTML = task.project || 'No project';
     timeText.innerHTML = task.time;
@@ -109,7 +110,8 @@ const taskElement = (isInput, task, index) => {
     timeButton.disabled = false;
     timeButton.id = `time-button-${index + 1}`;
     timeText.id = `time-text-${index + 1}`;
-    handleTimer(timeButton, timeText);
+
+    handleTimer(child, task.id);
     handleComplete(child, task.id);
   }
 
@@ -126,11 +128,13 @@ const createTasksContainers = (tasks) => {
   tasksNumber.innerHTML = tasks.length;
 }
 
-const handleTimer = (timeButton, timeText) => {
+const handleTimer = (task, firebaseId) => {
+  const timeButton = task.querySelector('.time-button');
+  const timeText = task.querySelector('.time-text');
   timeButton.addEventListener('click', () => {
     if (timeButton.innerHTML === playIcon) {
       timeButton.innerHTML = stopIcon;
-      const interval = startTimer(timeText);
+      const interval = startTimer(timeText, task, firebaseId);
       timeButton.interval = interval;
     } else {
       timeButton.innerHTML = playIcon;
@@ -158,25 +162,35 @@ const onblurNewTask = () => {
   const name = lastTask.querySelector('.task-input').value;
   const time = lastTask.querySelector('.time-text-input').value;
   const project = lastTask.querySelector('.task-input-project').value;
-  const task = { name, time, project, completed: false };
+  
+  let task = { name, time, project, completed: false };
   createTime(task);
+  getTimes().then((data) => {
+    task = {...task, id: _.last(data)?.id}
+  })
+
   tasksContainer.removeChild(lastTask);
-  const firebaseId = '' // TODO: Complete this
-  const newTask = taskElement(false, task, firebaseId);
+  const newTask = taskElement(false, task, tasksContainer.children?.length);
   tasksContainer.appendChild(newTask);
 }
 
 const handleComplete = (task, firebaseId) => {
   const checkbox = task.querySelector('.task-checkbox');
   checkbox.addEventListener('click', () => {
-    checkbox.innerHTML = checkIcon;
-    console.log('index', firebaseId);
-    task.classList.add('completed');
+    addCompletedStyle(task);
     updateTime(firebaseId, true);
   })
 }
 
-getTimes();
+const addCompletedStyle = (task) => {
+  const checkbox = task.querySelector('.task-checkbox');
+  checkbox.innerHTML = checkIcon;
+  task.classList.add('completed');
+}
+
+getTimes().then((data) => {
+  createTasksContainers(data)
+});
 changeDateElements();
 
 const newTaskButton = document.getElementById('new-task');

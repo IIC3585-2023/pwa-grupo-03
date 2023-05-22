@@ -10,7 +10,6 @@ const filesToCache = [
 ]
 
 self.addEventListener("install", function (e) {
-  console.log("installing!");
   e.waitUntil(
     caches.open(staticCacheName).then(function (cache) {
       return cache.addAll(filesToCache);
@@ -19,7 +18,6 @@ self.addEventListener("install", function (e) {
 });
 
 self.addEventListener('activate', async (event) => {
-  console.log('activating!');
   const keys = await caches.keys();
   keys
     .filter((key) => key !== staticCacheName)
@@ -31,16 +29,13 @@ async function networkFirst(request) {
   try {
     const response = await fetch(request);
     cache.put(request, response.clone());
-    // console.log('Network: ', request.url);
     return response;
   } catch {
-    // console.log('Cache: ', request.url);
     return cache.match(request);
   }
 }
 
 self.addEventListener("fetch", function (event) {
-  // console.log('Fetch intercepted for:', event.request.url);
   if (event.request.method !== "GET") return;
   event.respondWith(networkFirst(event.request));
 });

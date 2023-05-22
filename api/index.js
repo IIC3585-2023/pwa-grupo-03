@@ -21,7 +21,14 @@ app.get('/times', (req, res) => {
     .ref('times')
     .once('value')
     .then((snapshot) => {
-      return Object.values(snapshot.val()).sort((a, b) => {
+      const entries = Object.entries(snapshot.val());
+      const times = entries.map((entry) => {
+        return {
+          id: entry[0],
+          ...entry[1],
+        };
+      });
+      return times.sort((a, b) => {
         return new Date(b.time) - new Date(a.time);
       });
     }).then((times) => {
@@ -40,11 +47,11 @@ app.post('/times', (req, res) => {
     .push({
       name,
       time,
-      project
+      project,
+      completed: false
     })
     .then((data) => {
-      res.send('Time Created');
-      console.log(data);
+      res.send(data);
     });
 })
 
@@ -63,37 +70,6 @@ app.patch('/times/:id', (req, res) => {
     })
     .then(() => {
       res.send('Time Updated');
-    })
-})
-
-app.post('/message', (req, res) => {
-  const {
-    body: { message, title, token },
-  } = req;
-  const outputMessage = { notification: { title, body: message } };
-  admin
-    .messaging()
-    .sendToDevice(token, outputMessage)
-    .then((response) => {
-      res.status(200).send('Notification sent successfully');
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-
-  res.send({ msg: 'Notifications Sent' }).json();
-});
-
-app.post('/notification', (req, res) => {
-  const {
-    body: { message, title, token },
-  } = req;
-  const outputMessage = { notification: { title, body: message } };
-  admin
-    .messaging()
-    .sendToDevice(token, outputMessage)
-    .then((response) => {
-      res.status(200).send('Notification sent successfully');
     })
 })
 

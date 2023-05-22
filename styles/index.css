@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 .task {
-    @apply flex items-center justify-between px-4 py-5 rounded-xl hover:bg-gray-900;
+    @apply flex sm:flex-row flex-col items-start sm:items-center justify-start sm:justify-between gap-y-5 px-4 py-5 rounded-xl hover:bg-gray-900;
 }
 
 .task-name {
-    @apply text-sm md:text-xl;
+    @apply text-base md:text-xl;
 }
 
 .completed  {
@@ -62,7 +62,7 @@
 }
 
 .check-icon {
-    @apply h-4 w-4 text-purple-700;
+    @apply h-4 w-4 text-purple-300;
 }
 
 .time-text, .time-text-input {
