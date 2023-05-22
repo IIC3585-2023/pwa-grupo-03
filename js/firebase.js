@@ -32,6 +32,18 @@ const createTime = (timeObj) => {
   });
 };
 
+const updateTime = (timeId, completed) => {
+  fetch(`http://localhost:9000/times/${timeId}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      completed
+    }),
+  });
+}
+
 const messaging = firebase.messaging();
 
 messaging

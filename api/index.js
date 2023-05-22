@@ -42,9 +42,28 @@ app.post('/times', (req, res) => {
       time,
       project
     })
-    .then(() => {
+    .then((data) => {
       res.send('Time Created');
+      console.log(data);
     });
+})
+
+app.patch('/times/:id', (req, res) => {
+  const {
+    params: { id },
+    body: { completed },
+  } = req;
+
+  admin
+    .database()
+    .ref('times')
+    .child(id)
+    .update({
+      completed
+    })
+    .then(() => {
+      res.send('Time Updated');
+    })
 })
 
 app.post('/message', (req, res) => {
