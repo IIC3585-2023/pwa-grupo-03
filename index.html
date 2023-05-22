@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="./dist/output.css" rel="stylesheet">
-    <link rel="manifest" href="manifest.json" />
+    <link rel="manifest" crossorigin="use-credentials" href="./manifest.json" />
   </head>
   <body class="bg-black text-white font-sans">
     <nav class="flex w-full py-5 px-5 sm:px-10 md:px-32 border-b border-gray-500">
       <span class="flex gap-3 items-center">
         <img src="https://www.hellotimo.co/logo.svg" alt="Logo" />
-        <h1 class="font-bold text-3xl">Timo</h1>
+        <h1 id="app-title" class="font-bold text-3xl">Timo</h1>
       </span>
     </nav>
     <main class="flex flex-col gap-10 px-5 sm:px-10 md:px-32">
@@ -29,7 +29,7 @@
       </div>
       <div class="flex flex-col w-full gap-10" id="tasks-container">
       </div>
-      <button class="flex items-center justify-start gap-2 text-gray-300 mb-16" id="new-task">
+      <button class="flex items-center w-fit hover:bg-gray-800 rounded-lg justify-start gap-2 text-gray-300 mb-16 px-3 py-2" id="new-task">
         <span class="h-5 w-5">
           <svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path clip-rule="evenodd" fill-rule="evenodd" d="M12 5.25a.75.75 0 01.75.75v5.25H18a.75.75 0 010 1.5h-5.25V18a.75.75 0 01-1.5 0v-5.25H6a.75.75 0 010-1.5h5.25V6a.75.75 0 01.75-.75z"></path>
@@ -49,4 +49,5 @@
   <script src="./js/utils.js"></script>
   <script src="./js/firebase.js"></script>
   <script src="./js/dom.js"></script>
+  <script src="lodash.js"></script>
 </html>
