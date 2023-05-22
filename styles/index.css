@@ -10,6 +10,14 @@
     @apply text-sm md:text-xl;
 }
 
+.completed  {
+    @apply pointer-events-none opacity-50 hover:bg-black;
+}
+
+.completed .task-name {
+    @apply line-through;
+}
+
 .task-input {
     @apply appearance-none outline-none block;
     @apply w-full px-2 py-1 leading-tight;
@@ -46,10 +54,15 @@
 
 .time-button {
     @apply rounded-full h-10 w-10 border border-gray-200 absolute top-0 mt-[0.09rem] flex items-center justify-center text-gray-200 hover:bg-purple-700;
+    @apply disabled:hover:bg-black;
 }
 
 .time-button-icon {
     @apply h-4 w-4;
+}
+
+.check-icon {
+    @apply h-4 w-4 text-purple-700;
 }
 
 .time-text, .time-text-input {
@@ -61,8 +74,4 @@
     @apply justify-center;
     @apply bg-transparent text-white focus:ring-0 focus:border-purple-500;
     @apply focus:border-gray-200;
-}
-
-.completed {
-
 }
