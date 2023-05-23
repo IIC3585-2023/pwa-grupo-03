@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./dist/output.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>     
+  </head>
+  </head>
+  <body class="bg-black text-white font-sans">
+    <nav class="flex w-full py-5 px-5 sm:px-10 md:px-32 border-b border-gray-500">
+      <span class="flex gap-3 items-center">
+        <img src="https://www.hellotimo.co/logo.svg" alt="Logo" />
+        <h1 id="app-title" class="font-bold text-3xl">Timo</h1>
+      </span>
+    </nav>
+    <!-- <div style="width: 500px;"><canvas id="dimensions"></canvas></div><br/> -->
+    <div class="mt-12 w-2/3 m-auto"><canvas id="myChart"></canvas></div>
+
+    <!-- <script type="module" src="dimensions.js"></script> -->
+    
+    
+    <script src="app.js"></script>
+    <!-- FIREBASE setup -->
+    <script src="https://www.gstatic.com/firebasejs/9.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.8.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-messaging.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js"></script>
+    <script src="./js/firebase.js"></script>
+    <script src="./js/utils.js"></script>
+    <script src="./js/graph.js"></script>
+  </body>
+</html>

@@ -32,6 +32,7 @@ app.get('/times', (req, res) => {
         return new Date(b.time) - new Date(a.time);
       });
     }).then((times) => {
+      res.header('Access-Control-Allow-Origin', '*')
       res.send(times)
     });
 });
@@ -58,15 +59,15 @@ app.post('/times', (req, res) => {
 app.patch('/times/:id', (req, res) => {
   const {
     params: { id },
-    body: { completed },
+    body: { completed, time },
   } = req;
-
   admin
     .database()
     .ref('times')
     .child(id)
     .update({
-      completed
+      time,
+      completed,
     })
     .then(() => {
       res.send('Time Updated');

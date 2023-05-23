@@ -166,7 +166,8 @@ const onblurNewTask = () => {
   let task = { name, time, project, completed: false };
   createTime(task);
   getTimes().then((data) => {
-    task = {...task, id: _.last(data)?.id}
+    const { times } = data
+    task = {...task, id: _.last(times)?.id}
   })
 
   tasksContainer.removeChild(lastTask);
@@ -178,7 +179,9 @@ const handleComplete = (task, firebaseId) => {
   const checkbox = task.querySelector('.task-checkbox');
   checkbox.addEventListener('click', () => {
     addCompletedStyle(task);
-    updateTime(firebaseId, true);
+    const timeText = task.querySelector('.time-text').innerHTML;
+    console.log('🥵🍆💦 ~ file: dom.js:183 ~ checkbox.addEventListener ~ timeText:', timeText)
+    updateTime(firebaseId, true, timeText);
   })
 }
 
@@ -189,7 +192,11 @@ const addCompletedStyle = (task) => {
 }
 
 getTimes().then((data) => {
-  createTasksContainers(data)
+  const { times, groupedTimes } = data
+  const chartLabels = Object.keys(groupedTimes)
+  const chartData = Object.values(groupedTimes)
+
+  createTasksContainers(times)
 });
 changeDateElements();
 

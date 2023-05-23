@@ -17,7 +17,7 @@ const startTimer = (timeText, task, firebaseId) => {
       seconds = 0;
       showNotification();
       addCompletedStyle(task);
-      updateTime(firebaseId, true);
+      updateTime(firebaseId, true, timeText.innerHTML);
       stopTimer(interval);
     }
     timeText.innerHTML = `${showTime(hours)}:${showTime(minutes)}:${showTime(seconds)}`;
@@ -40,23 +40,54 @@ const stopTimer = (interval) => {
   }
 }
 
-function createNotification(title, message) {
-  // return new Notification(title, {
-  //   body: message,
-  //   icon: './images/icon.svg',
-  // });
-}
-
 function showNotification() {
-//   self.registration.showNotification('Vibration Sample', {
-//     body: 'Buzz! Buzz!',
-//     icon: './images/icon.svg',
-//     vibrate: [200, 100, 200, 100, 200, 100, 200],
-//     tag: 'vibration-sample'
-//   });
   navigator.serviceWorker.ready.then((registration) => {
     registration.showNotification("Notificacion", {
       body: "Buzz! Buzz!",
     });
   });
+}
+
+function calculateTimeDifference(initialTime, time) {
+    const [initialHours, initialMinutes, initialSeconds] = initialTime.split(':');
+    const [hours, minutes, seconds] = time.split(':');
+    
+    const initialTotalSeconds = convertToSeconds(initialHours, initialMinutes, initialSeconds);
+    const totalSeconds = convertToSeconds(hours, minutes, seconds);
+
+    const usedSeconds = initialTotalSeconds - totalSeconds;
+
+    return convertToTimeFormat(usedSeconds);
+}
+
+function convertToSeconds(hours, minutes, seconds) {
+    return parseInt(hours) * 3600 + parseInt(minutes) * 60 + parseInt(seconds);
+}
+
+function convertToTimeFormat(seconds) {
+    const remainingSeconds = seconds % 60;
+    const minutes = Math.floor(seconds / 60) % 60;
+    const hours = Math.floor(seconds / 3600);
+
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+}
+
+function convertTimeToMinutes(time) {
+    const [hours, minutes, seconds] = time.split(':');
+    return parseInt(hours) * 60 + parseInt(minutes) + Math.ceil(parseInt(seconds) / 60);
+}
+
+function calculateMinutesSpent(times) {
+  const groupedProjects = {};
+  times.map(item => {
+      const { project, time, initialTime } = item;
+      const usedTime = calculateTimeDifference(initialTime, time);
+      if (groupedProjects.hasOwnProperty(project)) {
+          groupedProjects[project] += convertTimeToMinutes(usedTime);
+      } else {
+          groupedProjects[project] = convertTimeToMinutes(usedTime);
+      }   
+  });
+
+  return groupedProjects
 }

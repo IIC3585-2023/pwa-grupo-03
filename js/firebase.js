@@ -12,13 +12,16 @@ const app = firebase.initializeApp(firebaseConfig);
 
 const db = firebase.database();
 const timesRef = db.ref('/times');
-const apiUrl = 'https://8a42-201-219-233-75.ngrok-free.app';
+const apiUrl = 'http://localhost:9000';
 
 const getTimes = async () => {
   return fetch(`${apiUrl}/times`)
   .then((response) => response.json())
-  .then((data) => {
-    return data;
+  .then((times) => {
+    const groupedTimes = calculateMinutesSpent(times);
+    console.log({times, groupedTimes})
+
+    return {times, groupedTimes};
   });
 }
 
@@ -29,18 +32,21 @@ const createTime = (timeObj) => {
     name,
     project,
     time,
+    initialTime: time,
     completed
   });
 };
 
-const updateTime = (timeId, completed) => {
+const updateTime = (timeId, completed, time) => {
+  console.log({timeId, completed, time})
   fetch(`${apiUrl}/times/${timeId}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      completed
+      completed,
+      time
     }),
   });
 }
