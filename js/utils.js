@@ -15,7 +15,8 @@ const startTimer = (timeText, task, firebaseId) => {
       hours = 0;
       minutes = 0;
       seconds = 0;
-      showNotification();
+      const taskName = task.querySelector('.task-name').innerHTML;
+      showNotification(`Your task ${taskName} is completed!`, 'Take a break!');
       addCompletedStyle(task);
       updateTime(firebaseId, true, timeText.innerHTML);
       stopTimer(interval);
@@ -40,10 +41,12 @@ const stopTimer = (interval) => {
   }
 }
 
-function showNotification() {
+function showNotification(title, message) {
   navigator.serviceWorker.ready.then((registration) => {
-    registration.showNotification("Notificacion", {
-      body: "Buzz! Buzz!",
+    registration.showNotification(title, {
+      body: message,
+      icon: 'images/icon.svg',
+      vibrate: [200, 100, 200, 100, 200, 100, 200]
     });
   });
 }

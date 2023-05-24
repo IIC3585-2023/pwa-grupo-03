@@ -167,12 +167,14 @@ const onblurNewTask = () => {
   createTime(task);
   getTimes().then((data) => {
     const { times } = data
+    console.log({last: _.last(times)?.id})
     task = {...task, id: _.last(times)?.id}
+    return task;
+  }).then((task) => {
+    tasksContainer.removeChild(lastTask);
+    const newTask = taskElement(false, task, tasksContainer.children?.length);
+    tasksContainer.appendChild(newTask);
   })
-
-  tasksContainer.removeChild(lastTask);
-  const newTask = taskElement(false, task, tasksContainer.children?.length);
-  tasksContainer.appendChild(newTask);
 }
 
 const handleComplete = (task, firebaseId) => {

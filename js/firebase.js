@@ -12,10 +12,14 @@ const app = firebase.initializeApp(firebaseConfig);
 
 const db = firebase.database();
 const timesRef = db.ref('/times');
-const apiUrl = 'http://localhost:9000';
+const apiUrl = 'https://2864-146-155-158-35.ngrok-free.app';
+const headers = {
+  "ngrok-skip-browser-warning": true,
+  'Content-Type': 'application/json'
+}
 
 const getTimes = async () => {
-  return fetch(`${apiUrl}/times`)
+  return fetch(`${apiUrl}/times`, { headers })
   .then((response) => response.json())
   .then((times) => {
     const groupedTimes = calculateMinutesSpent(times);
@@ -41,9 +45,7 @@ const updateTime = (timeId, completed, time) => {
   console.log({timeId, completed, time})
   fetch(`${apiUrl}/times/${timeId}`, {
     method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers,
     body: JSON.stringify({
       completed,
       time
