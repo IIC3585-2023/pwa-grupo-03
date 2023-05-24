@@ -38,10 +38,9 @@ const randomObjects = (array, n) => {
 }
 
 function createChart(data) {
-  console.log("Creando gráfico");
   var ctx = document.getElementById('myChart').getContext('2d');
   var myChart = new Chart(ctx, {
-    type: 'horizontalBar',
+    type: 'bar',
     data: {
       labels: Object.keys(data),
       datasets: [{
@@ -58,10 +57,10 @@ function createChart(data) {
       title: {
         display: true,
         text: 'Time in projects (in minutes)',
-        fontSize: 26,
+        fontSize: 13,
         fontColor: '#FFF',
-        padding: 28
-
+        padding: 20,
+        position: 'bottom',
       },
       scales: {
         yAxes: [{
@@ -69,7 +68,9 @@ function createChart(data) {
             beginAtZero: true
           }
         }]
-      }
+      },
+      responsive: true,
+      maintainAspectRatio: false,
     }
   });
 }
